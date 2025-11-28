@@ -3,518 +3,613 @@
 <head>
   <meta charset="UTF-8" />
   <title>Achievements & Recognition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Tailwind CDN (remove if you already use Tailwind) -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #020617;
-      color: #e5e7eb;
-    }
-
-    .achievements-section {
-      min-height: 100vh;
-      padding: 80px 16px;
-      background: radial-gradient(circle at top, #0ea5e9 0, transparent 55%),
-                  radial-gradient(circle at bottom, #22c55e22 0, transparent 55%),
-                  #020617;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .achievements-container {
-      width: 100%;
-      max-width: 1120px;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 2.6rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .section-title span {
-      color: #22c55e;
-    }
-
-    .section-subtitle {
-      text-align: center;
-      font-size: 0.95rem;
-      color: #9ca3af;
-      margin-bottom: 56px;
-    }
-
-    .timeline {
-      position: relative;
-      padding: 0 0 40px;
-      margin: 0 auto;
-    }
-
-    /* Center vertical line */
-    .timeline::before {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 0;
-      transform: translateX(-50%);
-      width: 3px;
-      height: 100%;
-      background: linear-gradient(to bottom, #22c55e, #0ea5e9);
-      opacity: 0.7;
-    }
-
-    .timeline-year-badge {
-      position: relative;
-      margin: 0 auto 32px;
-      width: max-content;
-      padding: 10px 28px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, #22c55e, #0ea5e9);
-      color: #020617;
-      font-weight: 700;
-      font-size: 0.95rem;
-      box-shadow: 0 18px 45px rgba(34, 197, 94, 0.35);
-    }
-
-    .timeline-group {
-      margin-bottom: 40px;
+    html, body {
+      scroll-behavior: smooth;
     }
 
     .timeline-item {
-      position: relative;
-      width: 50%;
-      padding: 12px 24px;
-      box-sizing: border-box;
+      opacity: 0;
+      transform: translateY(32px) scale(0.96);
+      transition:
+        opacity 0.7s cubic-bezier(0.18, 0.89, 0.32, 1.28),
+        transform 0.7s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      will-change: transform, opacity;
     }
 
-    .timeline-item.left {
-      float: left;
-      text-align: right;
-      clear: both;
+    .timeline-item.is-visible[data-side="left"] {
+      opacity: 1;
+      transform: translateX(-6px) translateY(0) scale(1);
     }
 
-    .timeline-item.right {
-      float: right;
-      text-align: left;
-      clear: both;
+    .timeline-item.is-visible[data-side="right"] {
+      opacity: 1;
+      transform: translateX(6px) translateY(0) scale(1);
     }
 
-    /* Dot on the center line */
-    .timeline-item::before {
-      content: "";
-      position: absolute;
-      top: 28px;
-      width: 14px;
-      height: 14px;
-      border-radius: 999px;
-      background: #020617;
-      border: 3px solid #22c55e;
-      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.2);
-    }
-
-    .timeline-item.left::before {
-      right: -7px;
-    }
-
-    .timeline-item.right::before {
-      left: -7px;
-    }
-
-    .timeline-card {
-      display: inline-block;
-      max-width: 440px;
-      padding: 18px 22px;
-      border-radius: 18px;
-      background: radial-gradient(circle at top left, #0f172a, #020617);
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.8);
-    }
-
-    .timeline-card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 6px;
-    }
-
-    .timeline-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(circle at top, #22c55e, #0ea5e9);
-      color: #020617;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
-
-    .timeline-title {
-      font-size: 1.02rem;
-      font-weight: 600;
-      color: #e5e7eb;
-    }
-
-    .timeline-meta {
-      font-size: 0.83rem;
-      color: #a5b4fc;
-      margin-bottom: 4px;
-    }
-
-    .timeline-desc {
-      font-size: 0.85rem;
-      color: #9ca3af;
-    }
-
-    /* Clear floats */
-    .timeline::after {
-      content: "";
-      display: block;
-      clear: both;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .timeline::before {
-        left: 18px;
-      }
-
+    @media (prefers-reduced-motion: reduce) {
       .timeline-item {
-        width: 100%;
-        padding-left: 44px;
-        padding-right: 8px;
-      }
-
-      .timeline-item.left,
-      .timeline-item.right {
-        text-align: left;
-        float: none;
-      }
-
-      .timeline-item::before {
-        left: 11px;
-      }
-
-      .timeline-card {
-        max-width: 100%;
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
       }
     }
   </style>
 </head>
-<body>
-  <section class="achievements-section">
-    <div class="achievements-container">
-      <h2 class="section-title">Achievements <span>& Recognition</span></h2>
-      <p class="section-subtitle">
-        A timeline of milestones and recognitions in my journey.
-      </p>
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
 
-      <div class="timeline">
-        <!-- 2025 -->
-        <div class="timeline-group">
-          <div class="timeline-year-badge">2025</div>
+<main class="max-w-4xl mx-auto px-4 md:px-6 py-10 md:py-14">
+  <!-- Hero -->
+  <section class="text-center mb-14 md:mb-16">
+    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-3">
+      Achievements & <span class="text-cyan-400">Recognition</span>
+    </h1>
+    <div class="w-24 h-1.5 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full mx-auto mb-4"></div>
+    <p class="text-slate-400 text-lg md:text-xl mb-7">
+      A timeline of milestones and recognitions in my journey
+    </p>
 
-          <div class="timeline-item left">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">🏆</div>
-                <div class="timeline-title">MCA CodeNest 2025 – 1st Place</div>
+    <div class="flex flex-wrap justify-center gap-3 md:gap-4 text-slate-200">
+      <div class="flex items-center gap-2 bg-slate-900/70 px-4 py-2 rounded-full border border-slate-700/80 shadow shadow-slate-900/70">
+        <span class="text-xl">🏆</span>
+        <span>20+ Awards</span>
+      </div>
+      <div class="flex items-center gap-2 bg-slate-900/70 px-4 py-2 rounded-full border border-slate-700/80 shadow shadow-slate-900/70">
+        <span class="text-xl">✨</span>
+        <span>Multiple 1st Places</span>
+      </div>
+      <div class="flex items-center gap-2 bg-slate-900/70 px-4 py-2 rounded-full border border-slate-700/80 shadow shadow-slate-900/70">
+        <span class="text-xl">💰</span>
+        <span>₹1L+ in Prizes</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="relative">
+    <!-- Center vertical line (desktop) -->
+    <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-cyan-500/80 via-cyan-500/25 to-transparent pointer-events-none"></div>
+
+    <!-- ========== 2025 ========== -->
+    <div class="relative mb-16">
+      <!-- Year badge -->
+      <div class="flex justify-center mb-10">
+        <div class="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-8 py-3 rounded-full font-semibold text-xl shadow-lg shadow-cyan-500/40">
+          2025
+        </div>
+      </div>
+
+      <div class="space-y-7">
+        <!-- CodeKong (left) -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-end md:pr-[44%]" data-side="left">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6 backdrop-blur-sm hover:border-cyan-400/70 hover:shadow-xl hover:shadow-cyan-500/20 transition-all">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  🏆
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    <a href="https://codekong.devpost.com" target="_blank" rel="noopener noreferrer"
+                       class="hover:underline decoration-cyan-400 decoration-2">
+                      CodeKong
+                    </a>
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">1st Place</p>
+                  <p class="text-slate-400 text-sm">₹15,000 cash prize</p>
+                </div>
               </div>
-              <div class="timeline-meta">Winner • Prizes worth ₹7,000</div>
-              <p class="timeline-desc">
-                Secured 1st place among competing teams with an innovative tech solution.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item right">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">⭐</div>
-                <div class="timeline-title">Green Pioneers 2025 – Award</div>
-              </div>
-              <div class="timeline-meta">“Most Impactful Project” • ₹5,000 prize</div>
-              <p class="timeline-desc">
-                Recognised for strong environmental impact and scalability in sustainability.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item left">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">🎖️</div>
-                <div class="timeline-title">Biomimicry Build-a-thon 2025</div>
-              </div>
-              <div class="timeline-meta">Honourable Mention • ₹1,000 cash prize</div>
-              <p class="timeline-desc">
-                Earned special recognition for a nature-inspired engineering concept.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item right">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">🏅</div>
-                <div class="timeline-title">Student Hacks 2025</div>
-              </div>
-              <div class="timeline-meta">Top 20 Teams</div>
-              <p class="timeline-desc">
-                Ranked in the top 20 teams in a competitive student hackathon.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item left">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">🌱</div>
-                <div class="timeline-title">Mega Hackathon 2025</div>
-              </div>
-              <div class="timeline-meta">Sustainability Award • ₹10,000+ in prizes</div>
-              <p class="timeline-desc">
-                Awarded for impactful work in sustainability and climate-focused innovation.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item right">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">🏆</div>
-                <div class="timeline-title">CodePi 2025</div>
-              </div>
-              <div class="timeline-meta">Multiple podium finishes • ₹50,000+ prizes</div>
-              <p class="timeline-desc">
-                Achieved several 2nd-place and top-tier ranks across hackathon and ideathon tracks.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item left">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">💰</div>
-                <div class="timeline-title">Code Kong</div>
-              </div>
-              <div class="timeline-meta">1st Place • ₹15,000 cash prize</div>
-              <p class="timeline-desc">
-                Won 1st place in a technology-focused competition with a health-tech solution.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item right">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">📜</div>
-                <div class="timeline-title">Maximally Startup Make-a-thon</div>
-              </div>
-              <div class="timeline-meta">Certificate of Appreciation</div>
-              <p class="timeline-desc">
-                Recognised for entrepreneurship and innovation in a startup-themed make-a-thon.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item left">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">🚀</div>
-                <div class="timeline-title">Empower Hacks 2.0</div>
-              </div>
-              <div class="timeline-meta">4th & 6th Place</div>
-              <p class="timeline-desc">
-                Secured multiple top-10 finishes with solutions in emergency response and sustainability.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item right">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">🎯</div>
-                <div class="timeline-title">SDGs in Practice</div>
-              </div>
-              <div class="timeline-meta">Top 10</div>
-              <p class="timeline-desc">
-                Ranked among the top 10 entries for work aligned with the UN Sustainable Development Goals.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item left">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">📌</div>
-                <div class="timeline-title">Deckathon</div>
-              </div>
-              <div class="timeline-meta">Certificate of Excellence</div>
-              <p class="timeline-desc">
-                Earned excellence recognition for a high-impact pitch deck.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item right">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">🧠</div>
-                <div class="timeline-title">Hobby2Hustle Hackathon</div>
-              </div>
-              <div class="timeline-meta">Selected & showcased</div>
-              <p class="timeline-desc">
-                Project selected and showcased in a hackathon focused on turning hobbies into ventures.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item left">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">❤️</div>
-                <div class="timeline-title">Hack4Health</div>
-              </div>
-              <div class="timeline-meta">1st Place</div>
-              <p class="timeline-desc">
-                Won 1st place in a healthcare innovation hackathon.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item right">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">🧪</div>
-                <div class="timeline-title">MicroLabs Fever Hackathon 2025</div>
-              </div>
-              <div class="timeline-meta">Top 15 Teams</div>
-              <p class="timeline-desc">
-                Ranked within the top 15 teams in a medical and diagnostics-focused challenge.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item left">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">🇮🇳</div>
-                <div class="timeline-title">1M1B Changemakers World Cup</div>
-              </div>
-              <div class="timeline-meta">Top 50 Rank Nationwide</div>
-              <p class="timeline-desc">
-                Recognised among the top 50 changemakers in India for impactful social innovation.
-              </p>
-            </div>
+            </article>
           </div>
         </div>
 
-        <!-- 2024 -->
-        <div class="timeline-group">
-          <div class="timeline-year-badge">2024</div>
-
-          <div class="timeline-item right">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">🏆</div>
-                <div class="timeline-title">National Automation Robotics Challenge 2024</div>
+        <!-- CodePi (Hackathon) (right) -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-start md:pl-[44%]" data-side="right">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6 backdrop-blur-sm hover:border-cyan-400/70 hover:shadow-xl hover:shadow-cyan-500/20 transition-all">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  🥈
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    <a href="https://codepi-ic-2025-1.devpost.com" target="_blank" rel="noopener noreferrer"
+                       class="hover:underline decoration-cyan-400 decoration-2">
+                      CodePi (Hackathon)
+                    </a>
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">2nd Place</p>
+                  <p class="text-slate-400 text-sm">Part of prizes worth ₹50,000+ overall</p>
+                </div>
               </div>
-              <div class="timeline-meta">1st Place • ₹8,000 prize</div>
-              <p class="timeline-desc">
-                Won 1st place in a national-level robotics and automation competition.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item left">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">⚡</div>
-                <div class="timeline-title">IEEE REPower 2024</div>
-              </div>
-              <div class="timeline-meta">3rd Place</div>
-              <p class="timeline-desc">
-                Secured 3rd place in an energy and power systems innovation challenge.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item right">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">💧</div>
-                <div class="timeline-title">Innovate H2O 2024</div>
-              </div>
-              <div class="timeline-meta">Winner • ₹10,000 funding</div>
-              <p class="timeline-desc">
-                Won a water-focused innovation contest with funding support for further development.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item left">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">🏅</div>
-                <div class="timeline-title">Atal Marathon 2024</div>
-              </div>
-              <div class="timeline-meta">Top 100 • Funding & mentorship</div>
-              <p class="timeline-desc">
-                Selected in the top 100 teams nationally with government support and mentorship.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item right">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">🤝</div>
-                <div class="timeline-title">Hack4Humanity 2024</div>
-              </div>
-              <div class="timeline-meta">Honourable Mention</div>
-              <p class="timeline-desc">
-                Recognised for social-impact innovation in a humanitarian hackathon.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item left">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">🔬</div>
-                <div class="timeline-title">Raman Awards 2024</div>
-              </div>
-              <div class="timeline-meta">National Qualifier</div>
-              <p class="timeline-desc">
-                Qualified at the national level in a prestigious science and innovation competition.
-              </p>
-            </div>
+            </article>
           </div>
         </div>
 
-        <!-- 2023 -->
-        <div class="timeline-group">
-          <div class="timeline-year-badge">2023</div>
-
-          <div class="timeline-item right">
-            <div class="timeline-card">
-              <div class="timeline-card-header">
-                <div class="timeline-icon">🤖</div>
-                <div class="timeline-title">World Robot Olympiad (WRO)</div>
+        <!-- CodePi (Ideathon) 2nd (left) -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-end md:pr-[44%]" data-side="left">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6 backdrop-blur-sm hover:border-cyan-400/70 hover:shadow-xl hover:shadow-cyan-500/20 transition-all">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  🥈
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    <a href="https://codepi-ic-2025-1.devpost.com" target="_blank" rel="noopener noreferrer"
+                       class="hover:underline decoration-cyan-400 decoration-2">
+                      CodePi (Ideathon)
+                    </a>
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">2nd Place</p>
+                </div>
               </div>
-              <div class="timeline-meta">2nd Place</div>
-              <p class="timeline-desc">
-                Achieved 2nd place in a robotics competition with global participation.
-              </p>
-            </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Hack4Health (right) -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-start md:pl-[44%]" data-side="right">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6 backdrop-blur-sm hover:border-cyan-400/70 hover:shadow-xl hover:shadow-cyan-500/20 transition-all">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  🏆
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    <a href="https://cs-base-hack4health.devpost.com" target="_blank" rel="noopener noreferrer"
+                       class="hover:underline decoration-cyan-400 decoration-2">
+                      Hack4Health
+                    </a>
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">1st Place</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- MCA CodeNest (left) -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-end md:pr-[44%]" data-side="left">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6 backdrop-blur-sm hover:border-cyan-400/70 hover:shadow-xl hover:shadow-cyan-500/20 transition-all">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  🏆
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    <a href="https://mca-eagles-codenest.devpost.com" target="_blank" rel="noopener noreferrer"
+                       class="hover:underline decoration-cyan-400 decoration-2">
+                      MCA CodeNest
+                    </a>
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">1st Place</p>
+                  <p class="text-slate-400 text-sm">Prizes worth ₹7,000</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Green Pioneers (right) -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-start md:pl-[44%]" data-side="right">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6 backdrop-blur-sm hover:border-cyan-400/70 hover:shadow-xl hover:shadow-cyan-500/20 transition-all">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  ⭐
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    <a href="https://greenpioneers.devpost.com" target="_blank" rel="noopener noreferrer"
+                       class="hover:underline decoration-cyan-400 decoration-2">
+                      Green Pioneers
+                    </a>
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">Most Impactful Project Award</p>
+                  <p class="text-slate-400 text-sm">₹5,000 prize</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Mega Hackathon (left) -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-end md:pr-[44%]" data-side="left">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6 backdrop-blur-sm hover:border-cyan-400/70 hover:shadow-xl hover:shadow-cyan-500/20 transition-all">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  ⭐
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    <a href="https://mega-hackathon-2025.devpost.com" target="_blank" rel="noopener noreferrer"
+                       class="hover:underline decoration-cyan-400 decoration-2">
+                      Mega Hackathon 2025
+                    </a>
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">Sustainability Award</p>
+                  <p class="text-slate-400 text-sm">Prizes worth ₹10,000+</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- MicroLabs Fever (right) -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-start md:pl-[44%]" data-side="right">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6 backdrop-blur-sm hover:border-cyan-400/70 hover:shadow-xl hover:shadow-cyan-500/20 transition-all">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  🎖️
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    <a href="https://micro-labs-hackathon-2025.devpost.com" target="_blank" rel="noopener noreferrer"
+                       class="hover:underline decoration-cyan-400 decoration-2">
+                      MicroLabs Fever Hackathon
+                    </a>
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">Top 15 Teams</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- SDGs in Practice (left) -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-end md:pr-[44%]" data-side="left">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6 backdrop-blur-sm hover:border-cyan-400/70 hover:shadow-xl hover:shadow-cyan-500/20 transition-all">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  🎖️
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    <a href="https://sdgs-in-practice-innovation.devpost.com" target="_blank" rel="noopener noreferrer"
+                       class="hover:underline decoration-cyan-400 decoration-2">
+                      SDGs In Practice Challenge
+                    </a>
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">Top 10</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Student Hacks (right) -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-start md:pl-[44%]" data-side="right">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6 backdrop-blur-sm hover:border-cyan-400/70 hover:shadow-xl hover:shadow-cyan-500/20 transition-all">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  🎖️
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    <a href="https://student-hacks-.devpost.com" target="_blank" rel="noopener noreferrer"
+                       class="hover:underline decoration-cyan-400 decoration-2">
+                      Student Hacks
+                    </a>
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">Top 20 Team</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Empower Hacks 2.0 (left) -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-end md:pr-[44%]" data-side="left">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6 backdrop-blur-sm hover:border-cyan-400/70 hover:shadow-xl hover:shadow-cyan-500/20 transition-all">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  🎖️
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    <a href="https://empower-hacks-2-0.devpost.com" target="_blank" rel="noopener noreferrer"
+                       class="hover:underline decoration-cyan-400 decoration-2">
+                      Empower Hacks 2.0
+                    </a>
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">4th &amp; 6th Place</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Hobby2Hustle (right) -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-start md:pl-[44%]" data-side="right">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6 backdrop-blur-sm hover:border-cyan-400/70 hover:shadow-xl hover:shadow-cyan-500/20 transition-all">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  🎖️
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    <a href="https://hobby2hustle-hackathon.devpost.com" target="_blank" rel="noopener noreferrer"
+                       class="hover:underline decoration-cyan-400 decoration-2">
+                      Hobby2Hustle Hackathon
+                    </a>
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">Finalist</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Deckathon (left) -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-end md:pr-[44%]" data-side="left">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6 backdrop-blur-sm hover:border-cyan-400/70 hover:shadow-xl hover:shadow-cyan-500/20 transition-all">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  🎖️
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    <a href="https://deckathon.devpost.com" target="_blank" rel="noopener noreferrer"
+                       class="hover:underline decoration-cyan-400 decoration-2">
+                      Deckathon
+                    </a>
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">Certificate of Excellence</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Maximally Startup Make-A-Thon (right) -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-start md:pl-[44%]" data-side="right">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6 backdrop-blur-sm hover:border-cyan-400/70 hover:shadow-xl hover:shadow-cyan-500/20 transition-all">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  🎖️
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    <a href="https://maximally-makeathon-2025.devpost.com" target="_blank" rel="noopener noreferrer"
+                       class="hover:underline decoration-cyan-400 decoration-2">
+                      Maximally Startup Make-A-Thon
+                    </a>
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">Certificate of Appreciation</p>
+                </div>
+              </div>
+            </article>
           </div>
         </div>
 
       </div>
     </div>
+
+    <!-- ========== 2024 ========== -->
+    <div class="relative mb-16">
+      <div class="flex justify-center mb-10">
+        <div class="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-8 py-3 rounded-full font-semibold text-xl shadow-lg shadow-cyan-500/40">
+          2024
+        </div>
+      </div>
+
+      <div class="space-y-7">
+        <!-- National Automation Robotics Challenge -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-end md:pr-[44%]" data-side="left">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  🏆
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    National Automation Robotics Challenge
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">1st Place</p>
+                  <p class="text-slate-400 text-sm">₹8,000 prize</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Innovate H2O -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-start md:pl-[44%]" data-side="right">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  🏆
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    Innovate H2O
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">Winner</p>
+                  <p class="text-slate-400 text-sm">₹10,000 funding</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- IEEE REPower -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-end md:pr-[44%]" data-side="left">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  🥉
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    IEEE REPower
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">3rd Place</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Atal Marathon -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-start md:pl-[44%]" data-side="right">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  ⭐
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    Atal Marathon
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">Top 100</p>
+                  <p class="text-slate-400 text-sm">Government funding &amp; mentorship</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Raman Awards -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-end md:pr-[44%]" data-side="left">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  🎖️
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    Raman Awards
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">National Qualifier</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Hack 4 Humanity (with Devpost link) -->
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-start md:pl-[44%]" data-side="right">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  🎖️
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    <a href="https://hackhumanity.devpost.com" target="_blank" rel="noopener noreferrer"
+                       class="hover:underline decoration-cyan-400 decoration-2">
+                      Hack 4 Humanity
+                    </a>
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">Honorable Mention</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========== 2023 ========== -->
+    <div class="relative mb-6">
+      <div class="flex justify-center mb-10">
+        <div class="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-8 py-3 rounded-full font-semibold text-xl shadow-lg shadow-cyan-500/40">
+          2023
+        </div>
+      </div>
+
+      <div class="space-y-7">
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 top-9 w-4 h-4 rounded-full bg-cyan-400 shadow shadow-cyan-400/80 -translate-x-1/2 z-20"></div>
+          <div class="timeline-item md:flex md:justify-end md:pr-[44%]" data-side="left">
+            <article class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5 md:p-6">
+              <div class="flex gap-4">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl md:text-3xl shadow-lg flex-shrink-0">
+                  🥈
+                </div>
+                <div>
+                  <h3 class="text-lg md:text-xl font-semibold mb-1">
+                    World Robot Olympiad (WRO)
+                  </h3>
+                  <p class="text-cyan-300 text-sm font-semibold mb-1">2nd Place</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </section>
+
+  <!-- Footer -->
+  <footer class="mt-10 border-t border-slate-800 pt-5 text-center text-slate-500 text-xs md:text-sm">
+    Built with passion and dedication • <span id="year"></span>
+  </footer>
+</main>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const items = document.querySelectorAll('.timeline-item');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.18
+    }
+  );
+
+  items.forEach((el) => observer.observe(el));
+</script>
+
 </body>
 </html>
