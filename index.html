@@ -11,7 +11,7 @@
     :root {
       --bg: #000000; 
       --panel: #000000;
-      --card: #111111; /* Slightly lighter black so cards don't turn invisible */
+      --card: #111111;
       --accent: #4a86e8;
       --accent-hover: #3b71ca;
       --text: #e6e6e6;
@@ -150,17 +150,7 @@
       padding-top: 5rem;
       position: relative;
       overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(74, 134, 232, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
-      z-index: -1;
+      background: #000000; /* Ensured pure black background */
     }
 
     .hero-content {
@@ -173,7 +163,7 @@
 
     .hero-text {
       flex: 1;
-      max-width: 800px; /* Widened to guarantee space for the name */
+      max-width: 800px;
     }
 
     .hero-title {
@@ -185,11 +175,24 @@
     }
 
     .name-wrapper {
-      white-space: nowrap; /* Forces "I'm Sparsh Jain" to stay on one line */
+      white-space: nowrap;
     }
 
+    /* Animated Highlight Name */
     .highlight-name {
-      color: #ffaa42;
+      background: linear-gradient(90deg, #ffaa42, #ff7b00, #ffce8a, #ffaa42);
+      background-size: 200% auto;
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: shine 3s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes shine {
+      to {
+        background-position: 200% center;
+      }
     }
 
     .btn-about {
@@ -485,7 +488,7 @@
     }
 
     .project-badge {
-      background: #ffaa42; /* Highlight orange */
+      background: #ffaa42;
       color: #000;
       padding: 0.3rem 0.8rem;
       border-radius: 5px;
@@ -520,6 +523,7 @@
     #contact {
       background: var(--panel);
       text-align: center;
+      padding-bottom: 2rem; /* Tightened gap here */
     }
 
     .contact-content {
@@ -557,7 +561,7 @@
     /* FOOTER */
     footer {
       background: #000000;
-      padding: 3rem 0;
+      padding: 1rem 0 3rem 0; /* Tightened gap here */
       text-align: center;
     }
 
@@ -570,7 +574,7 @@
     .copyright {
       color: var(--text-secondary);
       font-size: 0.9rem;
-      margin-top: 1.5rem;
+      margin-top: 1rem;
       letter-spacing: 1px;
     }
 
@@ -806,11 +810,11 @@
         
         <div class="project-card">
           <div class="project-header">
-            <h3>EvoVision</h3>
+            <h3>EcoVision</h3>
             <span class="project-badge">Winner</span>
           </div>
           <div class="project-body">
-            <p>Saving the planet one scan at a time.</p>
+            <p>An AI-powered web app making responsible e-waste recycling as simple as taking a photo, helping give devices a second life and reducing environmental harm.</p>
           </div>
           <div class="project-footer">
             <span><i class="fas fa-heart"></i> 2</span>
