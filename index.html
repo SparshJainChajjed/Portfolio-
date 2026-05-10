@@ -348,27 +348,25 @@
       font-size: 1.1rem;
     }
 
+    /* Python-style typed content */
     .typed-content {
       background: var(--card);
       padding: 2rem;
       border-radius: var(--border-radius);
       box-shadow: var(--shadow);
-      min-height: 200px;
+      min-height: 220px;
       font-family: 'Courier New', monospace;
-      font-size: 1.1rem;
-      line-height: 1.8;
+      font-size: 1.05rem;
+      line-height: 1.9;
+      white-space: pre-wrap;
     }
 
-    .typed-content .string {
-      color: #ce9178;
-    }
-
-    .typed-content .comment {
-      color: #6a9955;
-    }
-
-    .typed-content .key {
-      color: #9cdcfe;
+    .typed-content .string { color: #ce9178; }
+    .typed-content .comment { color: #6a9955; }
+    .typed-content .keyword { color: #9cdcfe; }
+    .typed-content .line { 
+      display: block; 
+      min-height: 1.5em; 
     }
 
     /* ACHIEVEMENTS */
@@ -548,24 +546,14 @@
 
     /* ANIMATIONS */
     @keyframes float {
-      0% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-20px);
-      }
-      100% {
-        transform: translateY(0px);
-      }
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
     }
 
     @keyframes rotate {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
     /* RESPONSIVE DESIGN */
@@ -574,18 +562,9 @@
         flex-direction: column;
         text-align: center;
       }
-      
-      .hero-text {
-        max-width: 100%;
-      }
-      
-      .hero p {
-        margin: 0 auto 2rem;
-      }
-      
-      .about-content {
-        flex-direction: column;
-      }
+      .hero-text { max-width: 100%; }
+      .hero p { margin: 0 auto 2rem; }
+      .about-content { flex-direction: column; }
     }
 
     @media (max-width: 768px) {
@@ -601,55 +580,24 @@
         transition: var(--transition);
         box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
       }
-      
-      .nav-links.active {
-        right: 0;
-      }
-      
-      .mobile-toggle {
-        display: block;
-      }
-      
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-      
-      .avatar-container {
-        width: 280px;
-        height: 280px;
-      }
-      
+      .nav-links.active { right: 0; }
+      .mobile-toggle { display: block; }
+      .hero h1 { font-size: 2.5rem; }
+      .avatar-container { width: 280px; height: 280px; }
       .btn {
         width: 100%;
         justify-content: center;
         margin-bottom: 1rem;
       }
-      
-      .btn-outline {
-        margin-left: 0;
-      }
-      
-      .contact-icons {
-        flex-wrap: wrap;
-      }
+      .btn-outline { margin-left: 0; }
+      .contact-icons { flex-wrap: wrap; }
     }
 
     @media (max-width: 576px) {
-      .section {
-        padding: 3rem 0;
-      }
-      
-      .section-title {
-        font-size: 2rem;
-      }
-      
-      .stats {
-        grid-template-columns: 1fr;
-      }
-      
-      .achievements-grid {
-        grid-template-columns: 1fr;
-      }
+      .section { padding: 3rem 0; }
+      .section-title { font-size: 2rem; }
+      .stats { grid-template-columns: 1fr; }
+      .achievements-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -741,7 +689,7 @@
         <div class="about-text">
           <h3>Who I Am</h3>
           <div class="typed-content" id="typedContent">
-            <!-- Typed content will appear here -->
+            <span class="cursor">|</span>
           </div>
         </div>
       </div>
@@ -913,7 +861,7 @@
     const mobileToggle = document.querySelector('.mobile-toggle');
     const navLinks = document.querySelector('.nav-links');
     
-    mobileToggle.addEventListener('click', () => {
+    mobileToggle?.addEventListener('click', () => {
       navLinks.classList.toggle('active');
     });
     
@@ -949,44 +897,98 @@
       });
     });
     
-    // Typed content animation
-    document.querySelector('#aboutBtn').addEventListener('click', () => {
+    // Python-style typed content animation
+    document.querySelector('#aboutBtn')?.addEventListener('click', () => {
       const sec = document.querySelector('#typedContent');
       if (sec.dataset.done) return;
       
+      // Python-style lines with syntax type mapping
       const lines = [
-        '<span class="string">Hi, I\'m Sparsh, a 14‑year‑old enthusiast with a deep passion for robotics, AI, machine learning (ML), 3‑D modelling and technology.</span>',
-        '<span class="comment">This website is dedicated to documenting my projects, achievements and experiences.</span>',
-        '<span class="key">Feel free to explore the site and get in touch if you\'d like to collaborate!</span>'
+        {
+          parts: [
+            { text: 'bio = ', type: 'keyword' },
+            { text: '"Hi, I\'m Sparsh, a 14-year-old enthusiast with a deep passion for robotics, AI, machine learning (ML), 3-D modelling and technology."', type: 'string' }
+          ]
+        },
+        {
+          parts: [
+            { text: '# This website is dedicated to documenting my projects, achievements and experiences.', type: 'comment' }
+          ]
+        },
+        {
+          parts: [
+            { text: 'print(', type: 'keyword' },
+            { text: '"Feel free to explore the site and get in touch if you\'d like to collaborate!"', type: 'string' },
+            { text: ')', type: 'keyword' }
+          ]
+        }
       ];
       
-      let l = 0, c = 0;
+      let lineIdx = 0, partIdx = 0, charIdx = 0;
       sec.innerHTML = '';
+      sec.dataset.done = 'pending';
       
-      (function type(){
-        if (l === lines.length) { 
-          sec.dataset.done = '1'; 
-          return; 
+      function wrap(text, type) {
+        return `<span class="${type}">${text}</span>`;
+      }
+      
+      function typeNext() {
+        if (lineIdx >= lines.length) {
+          sec.dataset.done = '1';
+          const cursor = sec.querySelector('.cursor');
+          if (cursor) cursor.remove();
+          return;
         }
         
-        if (c === 0) sec.innerHTML += `<div id="L${l}"></div>`;
-        document.querySelector(`#L${l}`).innerHTML = lines[l].slice(0, ++c);
+        let lineEl = sec.querySelector(`#line-${lineIdx}`);
+        if (!lineEl) {
+          lineEl = document.createElement('div');
+          lineEl.id = `line-${lineIdx}`;
+          lineEl.className = 'line';
+          sec.appendChild(lineEl);
+        }
         
-        if (c === lines[l].length){
-          sec.innerHTML += '<br>'; 
-          l++; 
-          c = 0; 
-          setTimeout(type, 350);
+        const line = lines[lineIdx];
+        let html = '';
+        
+        for (let p = 0; p <= partIdx; p++) {
+          const part = line.parts[p];
+          if (p < partIdx) {
+            html += wrap(part.text, part.type);
+          } else {
+            const visible = part.text.slice(0, charIdx + 1);
+            html += wrap(visible, part.type);
+          }
+        }
+        lineEl.innerHTML = html;
+        
+        charIdx++;
+        const currentPart = line.parts[partIdx];
+        
+        if (charIdx >= currentPart.text.length) {
+          charIdx = 0;
+          partIdx++;
+          
+          if (partIdx >= line.parts.length) {
+            partIdx = 0;
+            lineIdx++;
+            sec.appendChild(document.createElement('br'));
+            setTimeout(typeNext, 450);
+          } else {
+            setTimeout(typeNext, 80);
+          }
         } else {
-          setTimeout(type, 35);
+          setTimeout(typeNext, 38);
         }
-      })();
+      }
       
-      // Scroll to about section
+      typeNext();
+      
+      // Smooth scroll to About section
       const aboutSection = document.querySelector('#about');
-      const navHeight = document.querySelector('nav').offsetHeight;
-      const y = aboutSection.getBoundingClientRect().top + window.scrollY - navHeight;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      const navHeight = document.querySelector('nav')?.offsetHeight || 70;
+      const targetY = aboutSection.getBoundingClientRect().top + window.scrollY - navHeight + 20;
+      window.scrollTo({ top: targetY, behavior: 'smooth' });
     });
     
     // Stats counter animation
@@ -1021,7 +1023,7 @@
     
     observer.observe(statsSection);
     
-    // Add scroll effect to navbar
+    // Navbar scroll effect
     window.addEventListener('scroll', () => {
       const nav = document.querySelector('nav');
       if (window.scrollY > 50) {
