@@ -267,7 +267,7 @@
     .avatar img {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* Reverted back to cover */
+      object-fit: cover;
       border-radius: 50%;
     }
 
@@ -441,6 +441,44 @@
       font-weight: 600;
     }
 
+    /* CONTACT */
+    #contact {
+      background: var(--panel);
+      text-align: center;
+    }
+
+    .contact-content {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .contact-icons {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .contact-icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: var(--accent);
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+
+    .contact-icon:hover {
+      transform: translateY(-5px);
+      background: var(--accent);
+      color: white;
+    }
+
     /* FOOTER */
     footer {
       background: #000000;
@@ -452,31 +490,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 1.5rem;
-      margin: 1.5rem 0;
-    }
-
-    .social-link {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: var(--card);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      color: var(--accent);
-      transition: var(--transition);
-    }
-
-    .social-link:hover {
-      background: var(--accent);
-      color: white;
-      transform: translateY(-3px);
     }
 
     .copyright {
@@ -521,6 +534,7 @@
       .mobile-toggle { display: block; }
       .hero-title { font-size: 3.5rem; }
       .avatar-container { width: 350px; height: 350px; }
+      .contact-icons { flex-wrap: wrap; }
     }
 
     @media (max-width: 576px) {
@@ -542,6 +556,7 @@
       <a href="#home" class="active">Home</a>
       <a href="#about">About</a>
       <a href="#achievements">Achievements</a>
+      <a href="#contact">Contact</a>
     </div>
     <div class="mobile-toggle">
       <i class="fas fa-bars"></i>
@@ -717,19 +732,40 @@
     </div>
   </section>
 
+  <section class="section" id="contact">
+    <div class="container">
+      <h2 class="section-title">Get In Touch</h2>
+      <div class="contact-content">
+        <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
+        
+        <div class="contact-icons">
+          <a href="mailto:sparsh@example.com" class="contact-icon">
+            <i class="fas fa-envelope"></i>
+          </a>
+          <a href="https://github.com" class="contact-icon">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://linkedin.com" class="contact-icon">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+          <a href="https://twitter.com" class="contact-icon">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </div>
+        
+        <a href="mailto:sparsh@example.com" class="btn-about" style="display:inline-flex;">
+          <i class="fas fa-paper-plane" style="margin-right: 8px;"></i> Send Message
+        </a>
+      </div>
+    </div>
+  </section>
+
   <footer>
     <div class="container">
       <div class="footer-content">
         <div class="logo">
           <i class="fas fa-robot"></i>
           <span>Sparsh Robotics</span>
-        </div>
-        
-        <div class="social-links">
-          <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-          <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-          <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
         </div>
         
         <p class="copyright">
