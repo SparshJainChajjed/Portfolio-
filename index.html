@@ -173,7 +173,7 @@
 
     .hero-text {
       flex: 1;
-      max-width: 800px;
+      max-width: 800px; /* Widened to guarantee space for the name */
     }
 
     .hero-title {
@@ -185,7 +185,7 @@
     }
 
     .name-wrapper {
-      white-space: nowrap;
+      white-space: nowrap; /* Forces "I'm Sparsh Jain" to stay on one line */
     }
 
     .highlight-name {
@@ -571,7 +571,6 @@
       color: var(--text-secondary);
       font-size: 0.9rem;
       margin-top: 1.5rem;
-      text-transform: uppercase;
       letter-spacing: 1px;
     }
 
@@ -718,8 +717,8 @@
         </div>
         <div class="stat-card">
           <div class="stat-icon"><i class="fas fa-lightbulb"></i></div>
-          <div class="stat-number" data-target="15">0</div>
-          <div class="stat-label">Projects Developed</div>
+          <div class="stat-number" data-target="25" data-suffix="+">0</div>
+          <div class="stat-label">Unique Projects Made</div>
         </div>
         <div class="stat-card">
           <div class="stat-icon"><i class="fas fa-award"></i></div>
@@ -910,13 +909,8 @@
   <footer>
     <div class="container">
       <div class="footer-content">
-        <div class="logo">
-          <i class="fas fa-robot"></i>
-          <span>Sparsh Robotics</span>
-        </div>
-        
         <p class="copyright">
-          made from scratch without template
+          Made from scratch. No templates used.
         </p>
       </div>
     </div>
@@ -1026,12 +1020,13 @@
     function animateStats() {
       document.querySelectorAll('.stat-number').forEach(el => {
         const target = +el.dataset.target;
+        const suffix = el.dataset.suffix || '';
         const frames = Math.ceil(2000 / 30);
         let i = 0;
         const t = setInterval(() => {
           i++;
-          el.textContent = Math.round(target * (i / frames)).toLocaleString();
-          if (i >= frames) { clearInterval(t); el.textContent = target.toLocaleString(); }
+          el.textContent = Math.round(target * (i / frames)).toLocaleString() + suffix;
+          if (i >= frames) { clearInterval(t); el.textContent = target.toLocaleString() + suffix; }
         }, 30);
       });
     }
