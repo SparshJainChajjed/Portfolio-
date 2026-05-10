@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <title>Sparsh Robotics • Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234a86e8'/><text x='50' y='72' font-family='Arial, sans-serif' font-size='65' font-weight='bold' fill='white' text-anchor='middle'>S</text></svg>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     /* Modern color scheme - Pure Black Theme */
     :root {
       --bg: #000000; 
       --panel: #000000;
-      --card: #111111; 
+      --card: #111111; /* Slightly lighter black so cards don't turn invisible */
       --accent: #4a86e8;
       --accent-hover: #3b71ca;
       --text: #e6e6e6;
@@ -150,21 +150,20 @@
       padding-top: 5rem;
       position: relative;
       overflow: hidden;
-      background: #000000;
+      background: #000000; /* Ensured pure black background */
     }
 
     .hero-content {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 6rem;
+      gap: 6rem; /* Increased gap to separate text and image circle */
       width: 100%;
     }
 
     .hero-text {
       flex: 1;
       max-width: 600px;
-      margin-right: auto;
     }
 
     .hero-title {
@@ -176,30 +175,29 @@
     }
 
     .name-wrapper {
-      white-space: nowrap; 
-      display: block;
+      white-space: nowrap; /* Keeps "I'm Sparsh Jain" on the same line */
     }
 
+    /* Fade-in Animation for the name */
     .highlight-name {
-      color: transparent;
-      background: linear-gradient(90deg, #ffaa42, #ff7b00, #ffce8a, #ffaa42);
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      background-clip: text;
-      animation: fadeInName 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards, shine 3s linear infinite 2s;
+      color: #ffaa42;
       font-weight: 900;
-      letter-spacing: 0.5px;
-      position: relative;
+      display: inline-block;
       opacity: 0;
+      animation: fadeInName 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
     }
 
     @keyframes fadeInName {
-      0% { opacity: 0; transform: translateY(20px); filter: brightness(1.5); }
-      100% { opacity: 1; transform: translateY(0); filter: brightness(1); }
-    }
-
-    @keyframes shine {
-      to { background-position: 200% center; }
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+        filter: brightness(1.5);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: brightness(1);
+      }
     }
 
     .btn-about {
@@ -226,9 +224,9 @@
     }
 
     .hero-image {
-      flex: 0 0 auto;
+      flex: 1;
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       position: relative;
     }
 
@@ -320,7 +318,7 @@
     }
     @keyframes blink {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+      50%        { opacity: 0; }
     }
 
     /* SKILLS SECTION */
@@ -496,7 +494,7 @@
     }
 
     .project-badge {
-      background: #ffaa42; 
+      background: #ffaa42; /* Highlight orange */
       color: #000;
       padding: 0.3rem 0.8rem;
       border-radius: 5px;
@@ -531,7 +529,7 @@
     #contact {
       background: var(--panel);
       text-align: center;
-      padding-bottom: 0; 
+      padding-bottom: 0; /* Tightened gap */
     }
 
     .contact-content {
@@ -589,7 +587,7 @@
     /* RESPONSIVE DESIGN */
     @media (max-width: 992px) {
       .hero-content { flex-direction: column; text-align: center; gap: 3rem; }
-      .hero-text { max-width: 100%; margin: 0 auto; }
+      .hero-text, .hero-image { max-width: 100%; margin: 0 auto; }
       .name-wrapper { white-space: normal; } 
     }
 
@@ -972,7 +970,6 @@
         const sectionTop = section.offsetTop;
         const sectionHeight = section.clientHeight;
         
-        // Trigger earlier when scrolling down
         if (window.scrollY >= (sectionTop - 300)) {
           current = section.getAttribute('id');
         }
