@@ -119,6 +119,7 @@
       font-size: 1.1rem;
     }
 
+    /* Hover effect for Nav Links */
     .nav-links a::after {
       content: '';
       position: absolute;
@@ -157,18 +158,17 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 4rem;
+      gap: 6rem; 
       width: 100%;
     }
 
     .hero-text {
-      flex: 1 1 auto;
+      flex: 1;
       max-width: 600px;
-      margin-right: auto; /* Pushes text to the left */
     }
 
     .hero-title {
-      font-size: clamp(2.8rem, 5vw, 5.5rem);
+      font-size: clamp(3rem, 6vw, 5.5rem);
       font-weight: 800;
       line-height: 1.1;
       margin-bottom: 2rem;
@@ -176,43 +176,33 @@
     }
 
     .name-wrapper {
-      white-space: nowrap; /* Strictly keeps name on one line */
-      display: block;
+      white-space: nowrap;
     }
 
+    /* Fade-in & Shine Animation for the name (Underline removed) */
     .highlight-name {
       color: transparent;
       background: linear-gradient(90deg, #ffaa42, #ff7b00, #ffce8a, #ffaa42);
       background-size: 200% auto;
       -webkit-background-clip: text;
       background-clip: text;
-      animation: fadeInName 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards, shine 3s linear infinite 2s;
       font-weight: 900;
-      letter-spacing: 0.5px;
-      position: relative;
+      display: inline-block;
       opacity: 0;
-    }
-
-    .highlight-name::after {
-      content: '';
-      position: absolute;
-      bottom: -3px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: #ffaa42;
-      border-radius: 2px;
-      opacity: 0;
-      animation: subtleFade 0.5s forwards 1.7s;
+      animation: fadeInName 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards, shine 3s linear infinite 2s;
     }
 
     @keyframes fadeInName {
-      0% { opacity: 0; transform: translateY(20px); filter: brightness(1.5); }
-      100% { opacity: 1; transform: translateY(0); filter: brightness(1); }
-    }
-
-    @keyframes subtleFade {
-      100% { opacity: 0.7; }
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+        filter: brightness(1.5);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: brightness(1);
+      }
     }
 
     @keyframes shine {
@@ -243,9 +233,9 @@
     }
 
     .hero-image {
-      flex: 0 0 auto;
+      flex: 1;
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       position: relative;
     }
 
@@ -337,7 +327,7 @@
     }
     @keyframes blink {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+      50%        { opacity: 0; }
     }
 
     /* SKILLS SECTION */
@@ -619,7 +609,7 @@
     @media (max-width: 992px) {
       .hero-content { flex-direction: column; text-align: center; gap: 3rem; }
       .hero-text, .hero-image { max-width: 100%; margin: 0 auto; }
-      .name-wrapper { white-space: normal; } /* Let it wrap on very small screens to avoid overflow */
+      .name-wrapper { white-space: normal; } 
     }
 
     @media (max-width: 768px) {
@@ -926,21 +916,24 @@
         <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
         
         <div class="contact-icons">
-          <a href="mailto:sparsh@example.com" class="contact-icon">
+          <a href="mailto:sparshrobotics10@gmail.com" class="contact-icon" title="Email Me">
             <i class="fas fa-envelope"></i>
           </a>
-          <a href="https://github.com" class="contact-icon">
+          <a href="https://github.com" class="contact-icon" title="GitHub">
             <i class="fab fa-github"></i>
           </a>
-          <a href="https://linkedin.com" class="contact-icon">
+          <a href="https://www.linkedin.com/in/sparsh-jain-chajjed/" class="contact-icon" title="Sparsh Jain Chajjed | LinkedIn">
             <i class="fab fa-linkedin-in"></i>
           </a>
-          <a href="https://twitter.com" class="contact-icon">
-            <i class="fab fa-twitter"></i>
+          <a href="https://www.youtube.com/@Sparsh" class="contact-icon" title="Sparsh - YouTube">
+            <i class="fab fa-youtube"></i>
+          </a>
+          <a href="https://www.instagram.com/" class="contact-icon" title="Instagram">
+            <i class="fab fa-instagram"></i>
           </a>
         </div>
         
-        <a href="mailto:sparsh@example.com" class="btn-about" style="display:inline-flex;">
+        <a href="mailto:sparshrobotics10@gmail.com" class="btn-about" style="display:inline-flex;">
           <i class="fas fa-paper-plane" style="margin-right: 8px;"></i> Send Message
         </a>
       </div>
