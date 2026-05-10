@@ -318,7 +318,7 @@
     /* SKILLS SECTION */
     .skill-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      grid-template-columns: repeat(3, 1fr); /* Exactly 3 columns per row */
       gap: 1.5rem;
       margin-top: 2rem;
     }
@@ -535,6 +535,7 @@
       .hero-title { font-size: 3.5rem; }
       .avatar-container { width: 350px; height: 350px; }
       .contact-icons { flex-wrap: wrap; }
+      .skill-grid { grid-template-columns: repeat(2, 1fr); } /* 2 columns on tablets */
     }
 
     @media (max-width: 576px) {
@@ -543,6 +544,7 @@
       .hero-title { font-size: 2.8rem; }
       .stats { grid-template-columns: 1fr; }
       .achievements-grid { grid-template-columns: 1fr; }
+      .skill-grid { grid-template-columns: 1fr; } /* 1 column on phones */
     }
   </style>
 </head>
@@ -769,7 +771,7 @@
         </div>
         
         <p class="copyright">
-          &copy; 2025 Sparsh Robotics. All rights reserved.
+          made from scratch without template
         </p>
       </div>
     </div>
