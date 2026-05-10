@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Sparsh Robotics • Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234a86e8'/><text x='50' y='72' font-family='Arial, sans-serif' font-size='65' font-weight='bold' fill='white' text-anchor='middle'>S</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     /* Modern color scheme - Pure Black Theme */
@@ -156,17 +156,19 @@
     .hero-content {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      gap: 6rem;
       width: 100%;
     }
 
     .hero-text {
-      flex: 0 1 auto;
+      flex: 1;
       max-width: 600px;
-      margin-right: auto; /* Pushes text explicitly to the left */
+      margin-right: auto;
     }
 
     .hero-title {
-      font-size: clamp(2.8rem, 5vw, 5.5rem);
+      font-size: clamp(3rem, 6vw, 5.5rem);
       font-weight: 800;
       line-height: 1.1;
       margin-bottom: 2rem;
@@ -191,26 +193,9 @@
       opacity: 0;
     }
 
-    .highlight-name::after {
-      content: '';
-      position: absolute;
-      bottom: -3px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: #ffaa42;
-      border-radius: 2px;
-      opacity: 0;
-      animation: subtleFade 0.5s forwards 1.7s;
-    }
-
     @keyframes fadeInName {
       0% { opacity: 0; transform: translateY(20px); filter: brightness(1.5); }
       100% { opacity: 1; transform: translateY(0); filter: brightness(1); }
-    }
-
-    @keyframes subtleFade {
-      100% { opacity: 0.7; }
     }
 
     @keyframes shine {
@@ -601,22 +586,10 @@
       letter-spacing: 1px;
     }
 
-    /* ANIMATIONS */
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
-      100% { transform: translateY(0px); }
-    }
-
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
     /* RESPONSIVE DESIGN */
     @media (max-width: 992px) {
       .hero-content { flex-direction: column; text-align: center; gap: 3rem; }
-      .hero-text, .hero-image { max-width: 100%; margin: 0 auto; }
+      .hero-text { max-width: 100%; margin: 0 auto; }
       .name-wrapper { white-space: normal; } 
     }
 
@@ -962,15 +935,15 @@
   <script>
     // Mobile Navigation Toggle
     const mobileToggle = document.querySelector('.mobile-toggle');
-    const navLinks = document.querySelector('.nav-links');
+    const navLinksList = document.querySelector('.nav-links');
     
     mobileToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
+      navLinksList.classList.toggle('active');
     });
     
     document.querySelectorAll('.nav-links a').forEach(link => {
       link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
+        navLinksList.classList.remove('active');
       });
     });
     
@@ -984,8 +957,31 @@
         if (targetElement) {
           const offset = targetId === '#home' ? 0 : 80;
           window.scrollTo({ top: targetElement.offsetTop - offset, behavior: 'smooth' });
-          document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
-          this.classList.add('active');
+        }
+      });
+    });
+
+    // Dynamic Navigation Scroll Spy (Underline Animation)
+    const sections = document.querySelectorAll('section');
+    const navItems = document.querySelectorAll('.nav-links a');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        
+        // Trigger earlier when scrolling down
+        if (window.scrollY >= (sectionTop - 300)) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('href') === `#${current}`) {
+          item.classList.add('active');
         }
       });
     });
